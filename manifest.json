@@ -1,0 +1,19 @@
+{
+  "required_api_version": "^2.0.0",
+  "name": "Pidgin extension",
+  "description": "Open chats in Pidgin from ULauncher",
+  "developer_name": "Alexander Fougner",
+  "icon": "images/icon.png",
+  "options": {
+    "query_debounce": 0.05
+  },
+  "preferences": [
+    {
+      "id": "pidgin_kw",
+      "type": "keyword",
+      "name": "Pidgin contacts",
+      "description": "Search Pidgin buddies and open a conversation window",
+      "default_value": "pi"
+    }
+  ]
+}
