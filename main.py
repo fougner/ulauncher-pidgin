@@ -38,18 +38,30 @@ class KeywordQueryEventListener(EventListener):
             query = ""
         return self.render_results(query)
 
+    @staticmethod
+    def _pidgin_not_launched():
+        return RenderResultListAction([
+            ExtensionResultItem(
+                icon='images/icon.png',
+                name='No DBus connection, is Pidgin running?'
+            ),
+        ])
+
     def render_results(self, query):
         items = SortedList(query, min_score=0, limit=9)
-        for buddy in pidgin.getBuddies():
-            items.append(ExtensionSmallResultItem(icon='images/icon.png',
-                                             name='%s' % buddy.alias,
-                                             description='Account desc: %s' % buddy.name,
-                                             on_enter=ExtensionCustomAction(buddy)))
-        res = []
-        for i in items:
-            res.append(i)
+        try:
+            for buddy in pidgin.getBuddies():
+                items.append(ExtensionSmallResultItem(icon='images/icon.png',
+                                                 name='%s' % buddy.alias,
+                                                 description='Account desc: %s' % buddy.name,
+                                                 on_enter=ExtensionCustomAction(buddy)))
+            res = []
+            for i in items:
+                res.append(i)
 
-        return RenderResultListAction(res)
+            return RenderResultListAction(res)
+        except dbus.exceptions.DBusException:
+            return self._pidgin_not_launched()
 
 if __name__ == '__main__':
     DemoExtension().run()

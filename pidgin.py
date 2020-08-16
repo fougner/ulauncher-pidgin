@@ -51,4 +51,7 @@ class Pidgin():
         return str(alias)
 
     def newConversation(self, account, name):
-        self._interface.PurpleConversationNew(1, account, name)
+        try:
+            self._interface.PurpleConversationNew(1, account, name)
+        except dbus.exceptions.DBusException:
+            logger.error("Could not start conversation, Pidgin/DBus died?")
